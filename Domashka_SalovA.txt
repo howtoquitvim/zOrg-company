@@ -1,0 +1,207 @@
+part0
+
+1.
+
+[root@megabanana bananabrain]# ls /etc/yum.repos.d/
+CentOS-Linux-AppStream.repo  CentOS-Linux-ContinuousRelease.repo  CentOS-Linux-Devel.repo   CentOS-Linux-FastTrack.repo         CentOS-Linux-Media.repo  CentOS-Linux-PowerTools.repo
+CentOS-Linux-BaseOS.repo     CentOS-Linux-Debuginfo.repo          CentOS-Linux-Extras.repo  CentOS-Linux-HighAvailability.repo  CentOS-Linux-Plus.repo   CentOS-Linux-Sources.repo
+
+[root@megabanana bananabrain]# yum install -y yum-utils.noarch 
+
+...
+...
+...
+
+
+Installed:
+  yum-utils-4.0.17-5.el8.noarch                                                                                                                                                                                                                                                           
+
+Complete!
+
+
+[root@megabanana ~]# yum install docker-ce-19.03.14 docker-ce-cli-19.03.14 containerd.io
+
+
+[root@megabanana ~]# docker --version
+Docker version 19.03.14, build 5eb3275d40
+
+
+[root@megabanana ~]# yum upgrade docker-ce
+
+...
+...
+...
+
+
+Upgraded:
+  docker-ce-3:20.10.3-3.el8.x86_64                                                                                                                                                                                                                                                        
+
+Installed:
+  docker-ce-rootless-extras-20.10.3-3.el8.x86_64                                                                                                                                                                                                                                          
+
+Complete!
+
+[root@megabanana yum.repos.d]# yum upgrade docker-ce-cli.x86_64 
+
+...
+...
+...
+
+Upgraded:
+  docker-ce-cli-1:20.10.3-3.el8.x86_64                                                                                                                                                                                                                                                    
+
+Complete!
+
+[root@megabanana yum.repos.d]# yum upgrade containerd.io
+Last metadata expiration check: 0:16:58 ago on Fri 12 Feb 2021 05:53:07 PM MSK.
+Dependencies resolved.
+Nothing to do.
+Complete!
+
+[root@megabanana yum.repos.d]# yum history 
+ID     | Command line                                                                                                                                                                                                                        | Date and time    | Action(s)      | Altered
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    19 | upgrade docker-ce-cli.x86_64                                                                                                                                                                                                        | 2021-02-12 18:09 | Upgrade        |    1   
+    18 | upgrade docker-ce                                                                                                                                                                                                                   | 2021-02-12 18:08 | I, U           |    2   
+    17 | install --allowerasing docker-ce-19.03.14 docker-ce-cli-19.03.14 containerd.io                                                                                                                                                      | 2021-02-12 17:58 | E, I, O        |    9   
+    16 | install -y yum-utils.noarch                                                                                                                                                                                                         | 2021-02-12 17:33 | Install        |    1   
+    15 | install nmap                                                                                                                                                                                                                        | 2021-02-08 01:22 | Install        |    1   
+    14 | install telnet                                                                                                                                                                                                                      | 2021-02-07 22:53 | Install        |    1   
+    13 | install tmux.x86_64                                                                                                                                                                                                                 | 2021-01-21 20:37 | Install        |    1   
+    12 |                                                                                                                                                                                                                                     | 2020-12-24 17:41 | E, I, U        |  643   
+    11 | install wireshark                                                                                                                                                                                                                   | 2020-11-21 08:38 | Install        |   15   
+    10 |                                                                                                                                                                                                                                     | 2020-11-03 14:07 | I, U           |   28   
+     9 | install httpd                                                                                                                                                                                                                       | 2020-10-19 20:26 | Install        |    9   
+     8 | remove httpd                                                                                                                                                                                                                        | 2020-10-13 14:42 | Removed        |    9   
+     7 | install httpd                                                                                                                                                                                                                       | 2020-10-13 13:55 | Install        |    9   
+     6 | install git                                                                                                                                                                                                                         | 2020-10-09 11:15 | Install        |    6   
+     5 | install zsh                                                                                                                                                                                                                         | 2020-10-05 11:07 | Install        |    1   
+     4 |                                                                                                                                                                                                                                     | 2020-09-29 13:22 | Install        |    7   
+     3 | distro-sync                                                                                                                                                                                                                         | 2020-09-19 22:10 | I, U           |   38   
+     2 |                                                                                                                                                                                                                                     | 2020-09-19 19:48 | I, U           |  111   
+     1 |                     
+
+
+[root@megabanana yum.repos.d]# rpm -qi docker-ce
+Name        : docker-ce
+Epoch       : 3
+Version     : 20.10.3
+Release     : 3.el8
+Architecture: x86_64
+Install Date: Fri 12 Feb 2021 06:08:30 PM MSK
+Group       : Tools/Docker
+Size        : 120718118
+License     : ASL 2.0
+Signature   : RSA/SHA512, Tue 02 Feb 2021 01:32:13 AM MSK, Key ID c52feb6b621e9f35
+Source RPM  : docker-ce-20.10.3-3.el8.src.rpm
+Build Date  : Fri 29 Jan 2021 05:32:52 PM MSK
+Build Host  : fe99afa35299
+Relocations : (not relocatable)
+Packager    : Docker <support@docker.com>
+Vendor      : Docker
+URL         : https://www.docker.com
+Summary     : The open-source application container engine
+Description :
+Docker is a product for you to build, ship and run any application as a
+lightweight container.
+
+Docker containers are both hardware-agnostic and platform-agnostic. This means
+they can run anywhere, from your laptop to the largest cloud compute instance and
+everything in between - and they don't require you to use a particular
+language, framework or packaging system. That makes them great building blocks
+for deploying and scaling web apps, databases, and backend services without
+depending on a particular stack or provider.
+
+
+[root@megabanana yum.repos.d]# yum remove docker-ce docker-cli containerd.io
+No match for argument: docker-cli
+Dependencies resolved.
+==========================================================================================================================================================================================================================================================================================
+ Package                                                                 Architecture                                         Version                                                                               Repository                                                       Size
+==========================================================================================================================================================================================================================================================================================
+Removing:
+ containerd.io                                                           x86_64                                               1.4.3-3.1.el8                                                                         @docker-ce-stable                                               127 M
+ docker-ce                                                               x86_64                                               3:20.10.3-3.el8                                                                       @docker-ce-stable                                               115 M
+Removing unused dependencies:
+ container-selinux                                                       noarch                                               2:2.144.0-1.module_el8.3.0+475+c50ce30b                                               @AppStream                                                       46 k
+ docker-ce-rootless-extras                                               x86_64                                               20.10.3-3.el8                                                                         @docker-ce-stable                                                24 M
+ libcgroup                                                               x86_64                                               0.41-19.el8                                                                           @baseos                                                         136 k
+
+Transaction Summary
+==========================================================================================================================================================================================================================================================================================
+Remove  5 Packages
+
+Freed space: 266 M
+Is this ok [y/N]: y
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                                                                                                                                                                                                                                  1/1 
+  Running scriptlet: docker-ce-3:20.10.3-3.el8.x86_64                                                                                                                                                                                                                                 1/1 
+  Running scriptlet: docker-ce-3:20.10.3-3.el8.x86_64                                                                                                                                                                                                                                 1/5 
+  Erasing          : docker-ce-3:20.10.3-3.el8.x86_64                                                                                                                                                                                                                                 1/5 
+  Running scriptlet: docker-ce-3:20.10.3-3.el8.x86_64                                                                                                                                                                                                                                 1/5 
+  Running scriptlet: containerd.io-1.4.3-3.1.el8.x86_64                                                                                                                                                                                                                               2/5 
+  Erasing          : containerd.io-1.4.3-3.1.el8.x86_64                                                                                                                                                                                                                               2/5 
+  Running scriptlet: containerd.io-1.4.3-3.1.el8.x86_64                                                                                                                                                                                                                               2/5 
+  Erasing          : container-selinux-2:2.144.0-1.module_el8.3.0+475+c50ce30b.noarch                                                                                                                                                                                                 3/5 
+  Running scriptlet: container-selinux-2:2.144.0-1.module_el8.3.0+475+c50ce30b.noarch                                                                                                                                                                                                 3/5 
+  Running scriptlet: docker-ce-rootless-extras-20.10.3-3.el8.x86_64                                                                                                                                                                                                                   4/5 
+  Erasing          : docker-ce-rootless-extras-20.10.3-3.el8.x86_64                                                                                                                                                                                                                   4/5 
+  Running scriptlet: docker-ce-rootless-extras-20.10.3-3.el8.x86_64                                                                                                                                                                                                                   4/5 
+  Erasing          : libcgroup-0.41-19.el8.x86_64                                                                                                                                                                                                                                     5/5 
+  Running scriptlet: libcgroup-0.41-19.el8.x86_64                                                                                                                                                                                                                                     5/5 
+  Verifying        : container-selinux-2:2.144.0-1.module_el8.3.0+475+c50ce30b.noarch                                                                                                                                                                                                 1/5 
+  Verifying        : containerd.io-1.4.3-3.1.el8.x86_64                                                                                                                                                                                                                               2/5 
+  Verifying        : docker-ce-3:20.10.3-3.el8.x86_64                                                                                                                                                                                                                                 3/5 
+  Verifying        : docker-ce-rootless-extras-20.10.3-3.el8.x86_64                                                                                                                                                                                                                   4/5 
+  Verifying        : libcgroup-0.41-19.el8.x86_64                                                                                                                                                                                                                                     5/5 
+Installed products updated.
+
+Removed:
+  container-selinux-2:2.144.0-1.module_el8.3.0+475+c50ce30b.noarch               containerd.io-1.4.3-3.1.el8.x86_64               docker-ce-3:20.10.3-3.el8.x86_64               docker-ce-rootless-extras-20.10.3-3.el8.x86_64               libcgroup-0.41-19.el8.x86_64              
+
+Complete!
+
+
+
+
+
+
+part1
+
+mv /var/lib/mlocate/mlocate.db /root/
+
+updatedb -o /root/mlocate.db
+locate -d /root/mlocate.db file_task16.txt
+
+
+
+[root@megabanana ~]# ls
+anaconda-ks.cfg  Desktop  Documents  Downloads  file_task16.txt  initial-setup-ks.cfg  mlocate.db  Music  Pictures  Public  Templates  Videos
+
+[root@megabanana ~]# ls /var/lib/mlocate/
+
+[root@megabanana ~]# locate file_task16.txt | xargs cat
+locate: can not stat () `/var/lib/mlocate/mlocate.db': No such file or directory
+foo/bar
+
+[root@megabanana ~]# ln file_task16.txt file_task16_hard.txt
+
+[root@megabanana ~]# echo "d34d c0ws d0n't m00" >> file_task16.txt 
+
+[root@megabanana ~]# cat file_task16.txt 
+foo/bar
+d34d c0ws d0n't m00
+
+[root@megabanana ~]# rm file_task16.txt 
+
+[root@megabanana ~]# cat file_task16_hard.txt 
+foo/bar
+d34d c0ws d0n't m00
+
+
+
+
