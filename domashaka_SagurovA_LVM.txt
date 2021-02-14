@@ -1,0 +1,60 @@
+
+part0
+
+
+UUID=4d4353a6-2896-4073-902a-93b7bda26147 /backup       xfs     defaults        0 0
+
+UUID=c5b62aa3-6bdf-4aec-9d03-e76016add204 swap  swap    defaults        0 0
+
+
+
+mkfs.xfs /dev/sdb1 
+
+mkswap /dev/sdb2 
+swapon /dev/sdb2 
+
+[root@localhost ~]# lsblk 
+NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda           8:0    0   20G  0 disk 
+├─sda1        8:1    0    1G  0 part /boot
+└─sda2        8:2    0   19G  0 part 
+  ├─cl-root 253:0    0   17G  0 lvm  /
+  └─cl-swap 253:1    0    2G  0 lvm  
+sdb           8:16   0    5G  0 disk 
+├─sdb1        8:17   0    2G  0 part /backup
+├─sdb2        8:18   0  512M  0 part [SWAP]
+└─sdb3        8:19   0    2G  0 part 
+sr0          11:0    1  7.7G  0 rom  /run/media/root/CentOS-8-2-2004-x86_64-dvd
+
+
+part2
+
+pvcreate /dev/sdb3 
+
+vgextend cl /dev/sdb3
+
+lvextend -L +1G /dev/cl/root 
+  Size of logical volume cl/root changed from <17.00 GiB (4351 extents) to <18.00 GiB (4607 extents).
+  Logical volume cl/root successfully resized.
+
+[root@localhost ~]# df -h
+Filesystem           Size  Used Avail Use% Mounted on
+devtmpfs             3.8G     0  3.8G   0% /dev
+tmpfs                3.9G     0  3.9G   0% /dev/shm
+tmpfs                3.9G   10M  3.8G   1% /run
+tmpfs                3.9G     0  3.9G   0% /sys/fs/cgroup
+/dev/mapper/cl-root   17G  4.9G   13G  29% /
+
+
+
+xfs_growfs /dev/cl/root 
+
+[root@localhost ~]# df -h
+Filesystem           Size  Used Avail Use% Mounted on
+devtmpfs             3.8G     0  3.8G   0% /dev
+tmpfs                3.9G     0  3.9G   0% /dev/shm
+tmpfs                3.9G   10M  3.8G   1% /run
+tmpfs                3.9G     0  3.9G   0% /sys/fs/cgroup
+/dev/mapper/cl-root   18G  4.9G   14G  27% /
+
+
