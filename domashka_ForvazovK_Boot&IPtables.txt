@@ -1,0 +1,77 @@
+*recovery mode*
+
+in /etc/default/grub change
+
+
+GRUB_DISABLE_RECOVERY="false"
+
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+
+
+
+
+menuentry 'CentOS Linux (3.10.0-1160.el7.x86_64) 7 (Core) (recovery mode)' --class centos --class gnu-linux --class gnu --class os --unrestricted $menuentry_id_option 'gnulinux-3.10.0-1160.el7.x86_64-recovery-e86103d5-cd54-47d0-bde2-9b5a70739a1f' {
+        load_video
+        set gfxpayload=keep
+        insmod gzio
+        insmod part_msdos
+        insmod xfs
+        set root='hd0,msdos1'
+        if [ x$feature_platform_search_hint = xy ]; then
+          search --no-floppy --fs-uuid --set=root --hint-bios=hd0,msdos1 --hint-efi=hd0,msdos1 --hint-baremetal=ahci0,msdos1 --hint='hd0,msdos1'  9cc656dd-ded2-40c9-be9d-b528d7071ad2
+        else
+          search --no-floppy --fs-uuid --set=root 9cc656dd-ded2-40c9-be9d-b528d7071ad2
+        fi
+        linux16 /vmlinuz-3.10.0-1160.el7.x86_64 root=/dev/mapper/centos-root ro single crashkernel=auto rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet
+        initrd16 /initramfs-3.10.0-1160.el7.x86_64.img
+}
+
+
+
+
+
+*changing vm.dirty_ratio*
+
+in /etc/sysctl.conf
+
+vm.dirty_ratio = 25
+
+in console
+
+sysctl -w vm.dirty_ratio=25
+
+*Disabling SELinux*
+
+GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cl-swap rd.lvm.lv=cl/root rd.lvm.lv=cl/swap rhgb quiet selinux=0"
+
+[root@localhost ~]# sestatus 
+SELinux status:                 disabled
+
+
+
+
+*adding firewalld rules*
+
+firewall-cmd --zone=public --add-service=ssh
+
+firewall-cmd --zone=public --add-source=192.168.0.0/24
+
+firewall-cmd --zone=public --add-interface=ens33
+
+*disable firewalld*
+
+systemctl stop firewalld.service 
+
+systemctl disable firewalld.service 
+
+systemctl mask --now firewalld
+
+
+*iptables*
+
+iptables -A INPUT -p tcp --dport 22 -s 192.168.0.0/24 -i ens33 -j ACCEPT  -- разрешаем тцп на 22 порте, с определенного сорса и интерфейса
+
+iptables -A INPUT -i ens33 --dport 22 -j DROP -- дропаем на определенный интерфейс и порт 
+
+iptables -A INPUT -p tcp --dport 22 -i ens33 -j DROP  -- дропаем все тцп на порт и интерфейс 
